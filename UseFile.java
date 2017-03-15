@@ -3,13 +3,16 @@ import java.util.*;
 
 public class UseFile{
 	private Formatter formatter;
-	// private Scanner fileScanner;
-	
 	public void openFile(String name){	//opens an existing file
+		String file_name = name+".txt";
 		try{
-			// fileScanner = new Scanner(new File(name + ".txt")); // use this in future for READING ONLY
-			formatter = new Formatter(name + ".txt");	// opens existing or creates new file
-			// System.out.println("File opened.");
+			File f = new File(file_name);
+			if(f.exists()){
+				FileWriter fw = new FileWriter(file_name, true);
+				formatter = new Formatter(fw);			//continues writing in new file
+			}else{
+				formatter = new Formatter(file_name);	//creates new file
+			}
 		}catch(Exception e){
 			System.out.println("Unable to open/create file.");
 		}	
@@ -28,7 +31,7 @@ public class UseFile{
 	public void closeFile(){	//closes the file 
 		try{
 			formatter.close();
-			// System.out.println("The file was closed.");
+			System.out.println("The file was closed.");
 		}catch(Exception e){
 			System.out.println("Unable to close file safely.");
 		}
