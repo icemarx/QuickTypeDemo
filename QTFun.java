@@ -5,23 +5,24 @@ public class QTFun{
 	private Scanner in = new Scanner(System.in);
 
 	public int Calibration(int cal){
-			if(cal < 4 || cal > 10)
-				cal = 5;
-			System.out.println("Calibration set to " + cal);
-			return cal;
+		if(cal < 4 || cal > 10)
+			cal = 5;
+		System.out.println("Calibration set to " + cal);
+		return cal;
 	}
 
 	public String[] KeySelect(int cal){
 		// setting the keys
 		try{
 			String[] keys = new String[cal];
-		for(int i = 0; i < cal; i++){
-			System.out.print("Key #"+i+": ");
-			keys[i] = in.next().substring(0,1);
-		}
-		    return keys;
+			for(int i = 0; i < cal; i++){
+				System.out.print("Key #"+i+": ");
+				keys[i] = in.next().substring(0,1);
+			}
+			return keys;
 		}catch(Exception e){
 			System.out.println("Error selecting keys. Setting to default.");
+			System.out.println("Error: " + e);
 			String[] keys = {"q", "w", "e", "r", "v"};
 			return keys;
 		}
@@ -35,10 +36,10 @@ public class QTFun{
 
 		// check letters
 		for(int i = 0; i < keys.length; i++){
-		if(input.contains(keys[i]))
-	    		sum += Math.pow(2, i);
-	}
-	return sum;
+			if(input.contains(keys[i]))
+				sum += Math.pow(2, i);
+		}
+		return sum;
 	}
 
 	public void QTmain(UseFile file){
@@ -52,6 +53,8 @@ public class QTFun{
 			calibration = Calibration(in.nextInt());
 			keys = KeySelect(calibration);
 		}catch(Exception e){
+			System.out.println("Error selecting keys. Setting to default.");
+			System.out.println("Error message: " + e);
 			keys = new String[]{"q", "w", "e", "r", "v"};
 		}
 
@@ -63,16 +66,14 @@ public class QTFun{
 				if(alphabet[sum] == "EXIT")
 					break outerloop;
 				else{
-					try{
-						// output
-						System.out.println(alphabet[sum]); // so the user can see what he/she wrote
-						file.addData(alphabet[sum]);
-					}catch(Exception e){
-						System.out.println("error while loading to file"); // this will print when the file output will be implemented and it won't work
-						break outerloop;
-					}
+					// output
+					System.out.println(alphabet[sum]); // so the user can see what he/she wrote
+					file.addData(alphabet[sum]);
 				}
-	 		}catch(Exception e){}
+			}catch(Exception e){
+				System.out.println("Error:" + e);
+				break outerloop;
+			}
 		}
 	}
 }
